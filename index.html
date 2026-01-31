@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,18 +53,19 @@
 
         .bg-sigil {
             position: absolute;
-            top: 0;
+            top: 5%;
             left: 50%;
             transform: translateX(-50%);
             font-family: 'Syne', sans-serif;
             font-weight: 800;
-            font-size: clamp(15rem, 45vw, 45rem);
-            color: rgba(224, 230, 237, 0.02);
+            font-size: clamp(12rem, 35vw, 40rem);
+            color: rgba(224, 230, 237, 0.015);
             z-index: -1;
             pointer-events: none;
             line-height: 0.8;
             white-space: nowrap;
-            letter-spacing: -0.05em;
+            letter-spacing: -0.08em;
+            text-align: center;
         }
 
         .bio-reveal {
@@ -162,11 +164,11 @@
 {
   "imports": {
     "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "recharts": "https://esm.sh/recharts@^3.7.0",
-    "@google/genai": "https://esm.sh/@google/genai@^1.39.0",
-    "d3": "https://esm.sh/d3@^7.9.0",
     "react/": "https://esm.sh/react@^19.2.4/",
-    "react": "https://esm.sh/react@^19.2.4"
+    "react": "https://esm.sh/react@^19.2.4",
+    "@google/genai": "https://esm.sh/@google/genai@^1.39.0",
+    "recharts": "https://esm.sh/recharts@^3.7.0",
+    "d3": "https://esm.sh/d3@^7.9.0"
   }
 }
 </script>

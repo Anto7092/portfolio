@@ -1,7 +1,5 @@
 {
-  "name": "Creative Technologist Portfolio",
-  "description": "A world-class minimalist portfolio featuring an AI-powered concierge to discuss projects, skills, and experience.",
-  "requestFramePermissions": [
-    "microphone"
-  ]
+  "name": "Anto Bredly | Portfolio",
+  "description": "A professional minimalist portfolio exploring AI, ML, and complex systems.",
+  "requestFramePermissions": []
 }
