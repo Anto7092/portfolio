@@ -1,10 +1,17 @@
-// gpt.ts
+// gemini.ts
 import OpenAI from "openai";
 import { USER_CONFIG } from "../config";
 
-const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+// ⚠️ TESTING ONLY: key exposed here is not safe for production
+const client = new OpenAI({
+  apiKey: "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",
+  apiBaseUrl: "https://YOUR_AZURE_OPENAI_ENDPOINT.openai.azure.com/",
+  apiType: "azure",
+  apiVersion: "2023-07-01-preview",
+});
 
-export const gptService = {
+export const geminiService = {
+  // Chat as Anto, your personal portfolio AI
   async chatWithAssistant(
     message: string,
     history: { role: 'user' | 'assistant', content: string }[]
@@ -76,6 +83,7 @@ When unsure:
 
     const response = await client.chat.completions.create({
       model: "gpt-4o-mini",
+      deploymentId: "YOUR_AZURE_DEPLOYMENT_NAME", // replace with your Azure deployment name
       messages,
       temperature: 0.7
     });
@@ -83,13 +91,15 @@ When unsure:
     return response.choices[0].message.content;
   },
 
+  // Generate flashcards
   async generateFlashcards(topic: string) {
     const prompt = `Create 5 educational flashcards for the topic: ${topic}. 
-    Ensure questions are challenging and answers are clear. Respond in JSON format as an array of objects:
-    [{ "question": "...", "answer": "...", "tags": ["..."] }]`;
+Respond in JSON format as an array of objects:
+[{ "question": "...", "answer": "...", "tags": ["..."] }]`;
 
     const response = await client.chat.completions.create({
       model: "gpt-4o-mini",
+      deploymentId: "YOUR_AZURE_DEPLOYMENT_NAME",
       messages: [{ role: "user", content: prompt }],
       temperature: 0
     });
@@ -102,13 +112,15 @@ When unsure:
     }
   },
 
+  // Generate mind map
   async generateMindMap(topic: string) {
     const prompt = `Generate a radial mind map structure for: ${topic}. 
-    Break it into logical sub-topics and details. Respond in JSON format:
-    { "label": "central topic", "children": [...] }`;
+Respond in JSON format:
+{ "label": "central topic", "children": [...] }`;
 
     const response = await client.chat.completions.create({
       model: "gpt-4o-mini",
+      deploymentId: "YOUR_AZURE_DEPLOYMENT_NAME",
       messages: [{ role: "user", content: prompt }],
       temperature: 0
     });
@@ -121,3 +133,4 @@ When unsure:
     }
   }
 };
+
