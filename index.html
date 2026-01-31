@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anto Bredly | Synthesizing Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Syne:wght@400..800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --c-bg-1: #1A1D23;
+            --c-bg-2: #2C3E50;
+            --c-text-muted: #7F8C8D;
+            --c-accent: #BDC3C7;
+            --c-silver: #E0E6ED;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--c-bg-1);
+            color: var(--c-silver);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            letter-spacing: -0.01em;
+            margin: 0;
+            padding: 0;
+        }
+        .font-display { font-family: 'Syne', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        
+        /* Technical Blueprint Grid */
+        .grid-container {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: var(--c-bg-1);
+        }
+        .tech-grid {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(224, 230, 237, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(224, 230, 237, 0.1) 1px, transparent 1px);
+            background-size: 80px 80px;
+            mask-image: radial-gradient(circle 600px at var(--mouse-x) var(--mouse-y), black, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle 600px at var(--mouse-x) var(--mouse-y), black, transparent 80%);
+        }
+        .cursor-glow {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle 400px at var(--mouse-x) var(--mouse-y), rgba(224, 230, 237, 0.02), transparent 80%);
+            pointer-events: none;
+        }
+
+        /* Bio CRT Reveal */
+        .bio-reveal {
+            clip-path: inset(50% 0 50% 0);
+            animation: crt-open 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes crt-open {
+            to { clip-path: inset(0% 0 0% 0); }
+        }
+
+        /* Viscous Keyword bulge */
+        .viscous-keyword {
+            display: inline-block;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        .viscous-keyword:hover {
+            transform: scale(1.15) translateY(-2px);
+            color: white;
+            text-shadow: 0 0 20px rgba(224, 230, 237, 0.4);
+        }
+
+        /* Mercury Timeline Dot */
+        .mercury-dot {
+            position: absolute;
+            left: -4px;
+            width: 9px;
+            height: 9px;
+            background: #E0E6ED;
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(224, 230, 237, 0.6);
+            transition: top 0.1s linear, transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 10;
+        }
+
+        /* Background Sigil */
+        .bg-sigil {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 60vh;
+            color: #E0E6ED;
+            opacity: 0.015;
+            pointer-events: none;
+            z-index: -1;
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+        }
+
+        /* System Status Panel */
+        .status-panel {
+            border-left: 1px solid rgba(224, 230, 237, 0.05);
+            padding-left: 2rem;
+        }
+
+        /* Project Card Initialization States */
+        .project-card {
+            opacity: 0;
+            transform: translateY(40px);
+            filter: blur(15px);
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                        filter 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .project-card.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        /* Scan Line Effect */
+        .scan-line {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(224, 230, 237, 0.5), transparent);
+            z-index: 50;
+            pointer-events: none;
+            box-shadow: 0 0 15px rgba(224, 230, 237, 0.2);
+        }
+
+        /* Metadata Flicker */
+        @keyframes flicker {
+            0% { opacity: 0; }
+            5% { opacity: 0.8; }
+            10% { opacity: 0.2; }
+            15% { opacity: 1; }
+            100% { opacity: 1; }
+        }
+        .metadata-pop {
+            opacity: 0;
+        }
+        .metadata-pop.active {
+            animation: flicker 0.4s ease-out forwards;
+        }
+
+        /* Caret Styling */
+        .block-caret {
+            display: inline-block;
+            width: 0.6em;
+            height: 1em;
+            background: currentColor;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .caret-blink {
+            animation: blink 0.8s step-end infinite;
+        }
+
+        /* Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(224, 230, 237, 0.05); border-radius: 10px; }
+
+        /* Navigation */
+        .glass-nav {
+            background: rgba(26, 29, 35, 0.8);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(224, 230, 237, 0.08);
+        }
+        .nav-float {
+            position: fixed;
+            top: clamp(1rem, 4vh, 2.5rem);
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+        }
+        .h-fluid { font-size: clamp(2rem, 8.2vw, 6.2rem); }
+        .p-fluid { font-size: clamp(0.9rem, 1.8vw, 1.15rem); }
+        .caret {
+            display: inline-block;
+            width: 0.12em;
+            height: 0.8em;
+            background: #E0E6ED;
+            vertical-align: middle;
+            animation: blink 0.8s step-end infinite;
+            box-shadow: 0 0 10px rgba(224, 230, 237, 0.4);
+        }
+        .nav-underline { position: relative; }
+        .nav-underline::after {
+            content: ''; position: absolute; bottom: -4px; left: 50%; width: 0; height: 1px;
+            background: var(--c-silver); transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1); transform: translateX(-50%);
+        }
+        .nav-underline-active::after { width: 100%; }
+        .outline-text-silver {
+            -webkit-text-stroke: 1.5px rgba(224, 230, 237, 0.3);
+            color: transparent;
+        }
+        .headline-shadow {
+            white-space: nowrap;
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "recharts": "https://esm.sh/recharts@^3.7.0",
+    "@google/genai": "https://esm.sh/@google/genai@^1.39.0",
+    "d3": "https://esm.sh/d3@^7.9.0",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4"
+  }
+}
+</script>
+</head>
+<body>
+    <div class="grid-container" id="blueprint-matrix">
+        <div class="tech-grid"></div>
+        <div class="cursor-glow" id="matrix-glow"></div>
+    </div>
+    <div id="root"></div>
+    <script>
+        const container = document.getElementById('blueprint-matrix');
+        window.addEventListener('mousemove', (e) => {
+            container.style.setProperty('--mouse-x', e.clientX + 'px');
+            container.style.setProperty('--mouse-y', e.clientY + 'px');
+        });
+    </script>
+</body>
+</html>
