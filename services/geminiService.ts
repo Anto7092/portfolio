@@ -1,17 +1,29 @@
 // gemini.ts
-import OpenAI from "openai";
 import { USER_CONFIG } from "../config";
 
-// ⚠️ TESTING ONLY: key exposed here is not safe for production
-const client = new OpenAI({
-  apiKey: "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",
-  apiBaseUrl: "https://YOUR_AZURE_OPENAI_ENDPOINT.openai.azure.com/",
-  apiType: "azure",
-  apiVersion: "2023-07-01-preview",
-});
+const GITHUB_API_KEY = "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";
+
+// Helper to call GitHub GPT-4o Mini API
+async function githubGPT(messages: { role: "user" | "assistant" | "system"; content: string }[]) {
+  const response = await fetch("https://api.github.com/copilot/commands", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${GITHUB_API_KEY}`,
+      "Accept": "application/vnd.github.v4+json",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      model: "gpt-4o-mini",
+      messages: messages
+    })
+  });
+
+  const data = await response.json();
+  // GitHub API returns output in data.choices[0].message.content
+  return data.choices?.[0]?.message?.content || "";
+}
 
 export const geminiService = {
-  // Chat as Anto, your personal portfolio AI
   async chatWithAssistant(
     message: string,
     history: { role: 'user' | 'assistant', content: string }[]
@@ -81,56 +93,36 @@ When unsure:
       { role: "user", content: message }
     ];
 
-    const response = await client.chat.completions.create({
-      model: "gpt-4o-mini",
-      deploymentId: "YOUR_AZURE_DEPLOYMENT_NAME", // replace with your Azure deployment name
-      messages,
-      temperature: 0.7
-    });
-
-    return response.choices[0].message.content;
+    return await githubGPT(messages);
   },
 
-  // Generate flashcards
   async generateFlashcards(topic: string) {
-    const prompt = `Create 5 educational flashcards for the topic: ${topic}. 
-Respond in JSON format as an array of objects:
+    const prompt = `Create 5 educational flashcards for the topic: ${topic}. Respond in JSON format:
 [{ "question": "...", "answer": "...", "tags": ["..."] }]`;
 
-    const response = await client.chat.completions.create({
-      model: "gpt-4o-mini",
-      deploymentId: "YOUR_AZURE_DEPLOYMENT_NAME",
-      messages: [{ role: "user", content: prompt }],
-      temperature: 0
-    });
+    const messages = [{ role: "user", content: prompt }];
+    const text = await githubGPT(messages);
 
     try {
-      return JSON.parse(response.choices[0].message.content);
+      return JSON.parse(text);
     } catch (e) {
       console.error("Failed to parse flashcards JSON", e);
       return [];
     }
   },
 
-  // Generate mind map
   async generateMindMap(topic: string) {
-    const prompt = `Generate a radial mind map structure for: ${topic}. 
-Respond in JSON format:
+    const prompt = `Generate a radial mind map structure for: ${topic}. Respond in JSON format:
 { "label": "central topic", "children": [...] }`;
 
-    const response = await client.chat.completions.create({
-      model: "gpt-4o-mini",
-      deploymentId: "YOUR_AZURE_DEPLOYMENT_NAME",
-      messages: [{ role: "user", content: prompt }],
-      temperature: 0
-    });
+    const messages = [{ role: "user", content: prompt }];
+    const text = await githubGPT(messages);
 
     try {
-      return JSON.parse(response.choices[0].message.content);
+      return JSON.parse(text);
     } catch (e) {
       console.error("Failed to parse mind map JSON", e);
       return null;
     }
   }
 };
-
