@@ -12,15 +12,11 @@ export enum AppView {
   HOME = 'HOME',
   PROJECTS = 'PROJECTS',
   ABOUT = 'ABOUT',
+  // Educational Platform Views
   DASHBOARD = 'DASHBOARD',
   AI_TUTOR = 'AI_TUTOR',
   FLASHCARDS = 'FLASHCARDS',
   MINDMAP = 'MINDMAP'
-}
-
-export interface GroundingSource {
-  title: string;
-  uri: string;
 }
 
 export interface Message {
@@ -29,6 +25,11 @@ export interface Message {
   content: string;
   timestamp: number;
   sources?: GroundingSource[];
+}
+
+export interface GroundingSource {
+  title: string;
+  uri: string;
 }
 
 export interface Flashcard {
