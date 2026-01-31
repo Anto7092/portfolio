@@ -1,34 +1,51 @@
 
-import { GoogleGenAI, Type, GenerateContentResponse } from "@google/genai";
-
-// Initialize the Google GenAI SDK with the API key from environment variables.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+import { GoogleGenAI, Type } from "@google/genai";
 
 /**
- * Gemini Service - Integrated with @google/genai
+ * Gemini Service - Handles all AI-powered functionality using the Google GenAI SDK.
  */
+// Initialize the Gemini client with the API key from environment variables.
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+
 export const geminiService = {
   /**
-   * Chat with the AI Study Tutor using Google Search grounding.
+   * Chat with a study tutor using Google Search grounding.
+   * Returns the full GenerateContentResponse to allow extraction of grounding metadata.
    */
-  chatWithTutor: async (message: string, history: any[]): Promise<GenerateContentResponse> => {
-    return await ai.models.generateContent({
+  chatWithTutor: async (message: string, history: any[]) => {
+    const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
       contents: [...history, { role: 'user', parts: [{ text: message }] }],
       config: {
         tools: [{ googleSearch: {} }],
-        systemInstruction: "You are an expert AI Study Tutor. Help students understand complex topics, find research sources, and solve academic problems. Use Google Search for up-to-date information.",
-      }
+        systemInstruction: "You are ZenStudy AI, an expert academic tutor. Provide clear, concise explanations and use your search tool to verify facts or find recent research. Always cite your findings.",
+      },
     });
+    return response;
   },
 
   /**
-   * Generate educational flashcards for a specific topic in JSON format.
+   * Simple chat for the portfolio assistant interface.
+   * Returns the generated text output.
+   */
+  chatWithAssistant: async (message: string, history: any[]) => {
+    const response = await ai.models.generateContent({
+      model: 'gemini-3-flash-preview',
+      contents: [...history, { role: 'user', parts: [{ text: message }] }],
+      config: {
+        systemInstruction: "You are Anto Bredly's personal portfolio assistant. Be helpful, professional, and friendly. Answer questions about his projects, skills, and background based on the portfolio context.",
+      },
+    });
+    return response.text || "";
+  },
+
+  /**
+   * Generates a list of structured flashcards from a given topic using JSON response mode.
    */
   generateFlashcards: async (topic: string) => {
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
-      contents: `Generate a set of 5 high-quality educational flashcards about the topic: ${topic}`,
+      contents: `Create a set of 5 educational flashcards for the topic: "${topic}". Each card should have a clear question, a detailed answer, and relevant tags.`,
       config: {
         responseMimeType: "application/json",
         responseSchema: {
@@ -36,31 +53,42 @@ export const geminiService = {
           items: {
             type: Type.OBJECT,
             properties: {
-              question: { type: Type.STRING, description: "The study question" },
-              answer: { type: Type.STRING, description: "The detailed answer" },
-              tags: { type: Type.ARRAY, items: { type: Type.STRING }, description: "Relevant categories" }
+              question: { type: Type.STRING },
+              answer: { type: Type.STRING },
+              tags: { 
+                type: Type.ARRAY, 
+                items: { type: Type.STRING } 
+              }
             },
-            required: ["question", "answer"]
-          }
-        }
-      }
+            required: ["question", "answer"],
+            propertyOrdering: ["question", "answer", "tags"],
+          },
+        },
+      },
     });
-    return JSON.parse(response.text || "[]");
+    
+    try {
+      const jsonStr = response.text || "[]";
+      return JSON.parse(jsonStr.trim());
+    } catch (e) {
+      console.error("Error parsing flashcards JSON:", e);
+      return [];
+    }
   },
 
   /**
-   * Generate a hierarchical mind map structure for a topic in JSON format.
+   * Generates hierarchical data for a radial mind map using JSON response mode.
    */
   generateMindMap: async (topic: string) => {
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
-      contents: `Create a hierarchical mind map structure for the topic: ${topic}. Focus on core concepts and sub-topics.`,
+      contents: `Generate a hierarchical mind map structure for the topic: "${topic}". Break it down into key concepts and sub-concepts.`,
       config: {
         responseMimeType: "application/json",
         responseSchema: {
           type: Type.OBJECT,
           properties: {
-            label: { type: Type.STRING, description: "The node name" },
+            label: { type: Type.STRING },
             children: {
               type: Type.ARRAY,
               items: {
@@ -77,28 +105,23 @@ export const geminiService = {
                     }
                   }
                 },
-                required: ["label"]
+                required: ["label"],
+                propertyOrdering: ["label", "children"],
               }
             }
           },
-          required: ["label"]
-        }
-      }
+          required: ["label"],
+          propertyOrdering: ["label", "children"],
+        },
+      },
     });
-    return JSON.parse(response.text || "{}");
-  },
 
-  /**
-   * Chat with the Portfolio Assistant about Anto Bredly.
-   */
-  chatWithAssistant: async (message: string, history: any[]): Promise<string> => {
-    const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
-      contents: [...history, { role: 'user', parts: [{ text: message }] }],
-      config: {
-        systemInstruction: "You are Anto Bredly's personal AI assistant. You help visitors explore Anto's portfolio, research interests in AI/ML, and professional background. You are friendly, professional, and concise. Anto is a 12th-grade student focused on building intelligent systems.",
-      }
-    });
-    return response.text || "I'm sorry, I couldn't generate a response.";
+    try {
+      const jsonStr = response.text || "{}";
+      return JSON.parse(jsonStr.trim());
+    } catch (e) {
+      console.error("Error parsing mind map JSON:", e);
+      return { label: topic, children: [] };
+    }
   }
 };

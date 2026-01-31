@@ -12,14 +12,12 @@ export enum AppView {
   HOME = 'HOME',
   PROJECTS = 'PROJECTS',
   ABOUT = 'ABOUT',
-  // Added missing views for ZenStudy AI integration
   DASHBOARD = 'DASHBOARD',
   AI_TUTOR = 'AI_TUTOR',
   FLASHCARDS = 'FLASHCARDS',
   MINDMAP = 'MINDMAP'
 }
 
-// Added missing interfaces for AI-powered components
 export interface GroundingSource {
   title: string;
   uri: string;
