@@ -2,8 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anto Bredly | Synthesizing Intelligence</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Anto Bredly | Exploring Intelligence</title>
+    <meta name="description" content="Portfolio of Anto Bredly, a creative technologist and student exploring AI, ML, and complex systems.">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Syne:wght@400..800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -14,6 +16,8 @@
             --c-accent: #BDC3C7;
             --c-silver: #E0E6ED;
         }
+        
+        html { scroll-behavior: smooth; }
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--c-bg-1);
@@ -23,11 +27,12 @@
             letter-spacing: -0.01em;
             margin: 0;
             padding: 0;
+            padding-bottom: env(safe-area-inset-bottom);
         }
+
         .font-display { font-family: 'Syne', sans-serif; }
         .font-mono { font-family: 'JetBrains Mono', monospace; }
         
-        /* Technical Blueprint Grid */
         .grid-container {
             position: fixed;
             inset: 0;
@@ -38,20 +43,29 @@
             position: absolute;
             inset: 0;
             background-image: 
-                linear-gradient(rgba(224, 230, 237, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(224, 230, 237, 0.1) 1px, transparent 1px);
-            background-size: 80px 80px;
-            mask-image: radial-gradient(circle 600px at var(--mouse-x) var(--mouse-y), black, transparent 80%);
-            -webkit-mask-image: radial-gradient(circle 600px at var(--mouse-x) var(--mouse-y), black, transparent 80%);
-        }
-        .cursor-glow {
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle 400px at var(--mouse-x) var(--mouse-y), rgba(224, 230, 237, 0.02), transparent 80%);
-            pointer-events: none;
+                linear-gradient(rgba(224, 230, 237, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(224, 230, 237, 0.05) 1px, transparent 1px);
+            background-size: clamp(40px, 8vw, 80px) clamp(40px, 8vw, 80px);
+            mask-image: radial-gradient(circle clamp(200px, 40vw, 600px) at var(--mouse-x, 50%) var(--mouse-y, 50%), black, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle clamp(200px, 40vw, 600px) at var(--mouse-x, 50%) var(--mouse-y, 50%), black, transparent 80%);
         }
 
-        /* Bio CRT Reveal */
+        .bg-sigil {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: clamp(15rem, 45vw, 45rem);
+            color: rgba(224, 230, 237, 0.02);
+            z-index: -1;
+            pointer-events: none;
+            line-height: 0.8;
+            white-space: nowrap;
+            letter-spacing: -0.05em;
+        }
+
         .bio-reveal {
             clip-path: inset(50% 0 50% 0);
             animation: crt-open 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -60,25 +74,25 @@
             to { clip-path: inset(0% 0 0% 0); }
         }
 
-        /* Viscous Keyword bulge */
         .viscous-keyword {
             display: inline-block;
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s ease;
             cursor: pointer;
             position: relative;
         }
-        .viscous-keyword:hover {
-            transform: scale(1.15) translateY(-2px);
-            color: white;
-            text-shadow: 0 0 20px rgba(224, 230, 237, 0.4);
+        @media (hover: hover) {
+            .viscous-keyword:hover {
+                transform: scale(1.1) translateY(-2px);
+                color: white;
+                text-shadow: 0 0 20px rgba(224, 230, 237, 0.4);
+            }
         }
 
-        /* Mercury Timeline Dot */
         .mercury-dot {
             position: absolute;
             left: -4px;
-            width: 9px;
-            height: 9px;
+            width: clamp(7px, 1.5vw, 10px);
+            height: clamp(7px, 1.5vw, 10px);
             background: #E0E6ED;
             border-radius: 50%;
             box-shadow: 0 0 15px rgba(224, 230, 237, 0.6);
@@ -86,35 +100,13 @@
             z-index: 10;
         }
 
-        /* Background Sigil */
-        .bg-sigil {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 60vh;
-            color: #E0E6ED;
-            opacity: 0.015;
-            pointer-events: none;
-            z-index: -1;
-            font-family: 'Syne', sans-serif;
-            font-weight: 800;
-        }
-
-        /* System Status Panel */
-        .status-panel {
-            border-left: 1px solid rgba(224, 230, 237, 0.05);
-            padding-left: 2rem;
-        }
-
-        /* Project Card Initialization States */
         .project-card {
             opacity: 0;
-            transform: translateY(40px);
-            filter: blur(15px);
-            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
-                        transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
-                        filter 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(30px);
+            filter: blur(10px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 1s cubic-bezier(0.16, 1, 0.3, 1), 
+                        filter 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .project-card.is-visible {
             opacity: 1;
@@ -122,79 +114,33 @@
             filter: blur(0);
         }
 
-        /* Scan Line Effect */
-        .scan-line {
-            position: absolute;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(224, 230, 237, 0.5), transparent);
-            z-index: 50;
-            pointer-events: none;
-            box-shadow: 0 0 15px rgba(224, 230, 237, 0.2);
-        }
-
-        /* Metadata Flicker */
-        @keyframes flicker {
-            0% { opacity: 0; }
-            5% { opacity: 0.8; }
-            10% { opacity: 0.2; }
-            15% { opacity: 1; }
-            100% { opacity: 1; }
-        }
-        .metadata-pop {
-            opacity: 0;
-        }
-        .metadata-pop.active {
-            animation: flicker 0.4s ease-out forwards;
-        }
-
-        /* Caret Styling */
-        .block-caret {
-            display: inline-block;
-            width: 0.6em;
-            height: 1em;
-            background: currentColor;
-            vertical-align: middle;
-            margin-left: 4px;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-        .caret-blink {
-            animation: blink 0.8s step-end infinite;
-        }
-
-        /* Scrollbar */
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(224, 230, 237, 0.05); border-radius: 10px; }
-
-        /* Navigation */
-        .glass-nav {
-            background: rgba(26, 29, 35, 0.8);
-            backdrop-filter: blur(24px);
-            border: 1px solid rgba(224, 230, 237, 0.08);
-        }
-        .nav-float {
-            position: fixed;
-            top: clamp(1rem, 4vh, 2.5rem);
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 100;
-        }
-        .h-fluid { font-size: clamp(2rem, 8.2vw, 6.2rem); }
-        .p-fluid { font-size: clamp(0.9rem, 1.8vw, 1.15rem); }
+        .h-fluid { font-size: clamp(2.2rem, 9vw, 6.5rem); }
+        .p-fluid { font-size: clamp(0.95rem, 2vw, 1.15rem); }
+        
         .caret {
             display: inline-block;
-            width: 0.12em;
+            width: 0.1em;
             height: 0.8em;
             background: #E0E6ED;
             vertical-align: middle;
             animation: blink 0.8s step-end infinite;
             box-shadow: 0 0 10px rgba(224, 230, 237, 0.4);
+        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .glass-nav {
+            background: rgba(26, 29, 35, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(224, 230, 237, 0.12);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+        .nav-float {
+            position: fixed;
+            top: clamp(1rem, 4vh, 2rem);
+            left: 0;
+            right: 0;
+            z-index: 100;
         }
         .nav-underline { position: relative; }
         .nav-underline::after {
@@ -202,13 +148,15 @@
             background: var(--c-silver); transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1); transform: translateX(-50%);
         }
         .nav-underline-active::after { width: 100%; }
-        .outline-text-silver {
-            -webkit-text-stroke: 1.5px rgba(224, 230, 237, 0.3);
-            color: transparent;
-        }
-        .headline-shadow {
-            white-space: nowrap;
-        }
+
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(224, 230, 237, 0.1); border-radius: 10px; }
     </style>
 <script type="importmap">
 {
@@ -226,7 +174,6 @@
 <body>
     <div class="grid-container" id="blueprint-matrix">
         <div class="tech-grid"></div>
-        <div class="cursor-glow" id="matrix-glow"></div>
     </div>
     <div id="root"></div>
     <script>
@@ -235,6 +182,8 @@
             container.style.setProperty('--mouse-x', e.clientX + 'px');
             container.style.setProperty('--mouse-y', e.clientY + 'px');
         });
+        container.style.setProperty('--mouse-x', '50%');
+        container.style.setProperty('--mouse-y', '50%');
     </script>
 </body>
 </html>

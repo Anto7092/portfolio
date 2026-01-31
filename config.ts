@@ -1,42 +1,52 @@
 import { Project } from './types';
 
+/**
+ * PORTFOLIO CONFIGURATION
+ * 
+ * To update your portfolio:
+ * 1. Modify the values in this object.
+ * 2. This is the only file you need to touch for content updates.
+ */
+
 export const USER_CONFIG = {
   name: "Anto Bredly",
-  role: "Lead Synthetic Engineer",
+  role: "Student • AI / ML",
+  email: "antotheprogrammer@gmail.com",
+  phone: "+917092208939",
   profileImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400",
   
   // Bio Page Content
   bio: {
-    heading: "Eight years synthesizing raw logic into pure intelligent aesthetic.",
+    heading: "About Me.",
     paragraphs: [
-      "The focus is on the architecture of thought. Over the last eight years, simple coding evolved into a rigorous discipline of synthetic engineering. The goal isn't just to build, but to model digital experiences that process intent with the same precision as a neural net.",
-      "Specializing in ML-integrated interfaces and high-dimensional design systems, the output remains constant: ensuring every pixel is a deliberate weight in the final model. Engineering is the logic; Artistry is the synthesis."
+      "I’m a student interested in understanding how intelligence works — not just at a high level, but at the level of systems, code, and math.",
+      "I enjoy building small projects that help me explore ideas in artificial intelligence and machine learning. I’m especially drawn to problems where logic, algorithms, and structure matter.",
+      "This portfolio is a place where I document what I build, what I learn, and how my thinking evolves over time.",
+      "— — —",
+      "Right now, my focus is on strengthening my foundations in programming, algorithms, and mathematics, while gradually moving deeper into machine learning concepts through hands-on work.",
+      "— — —",
+      "I’m still learning — and that’s the point."
     ],
-    keywords: ["architecture", "discipline", "synthetic engineering", "neural net", "deliberate weight", "synthesis"],
+    keywords: ["intelligence", "systems", "code", "math", "logic", "algorithms", "structure", "learning"],
     monogram: "AB"
   },
 
   // Timeline Events
   timeline: [
     {
-      year: '2017',
-      title: 'Initialization',
-      desc: 'The first interaction with logic-based structures. Discovery of the digital substrate.'
+      year: '2020',
+      title: 'Started Programming',
+      desc: 'Began learning programming through online courses and self-exploration.'
     },
     {
-      year: '2019',
-      title: 'Architectural Layering',
-      desc: 'Mastering the core primitives of the web. Deploying performance-first digital infrastructures.'
-    },
-    {
-      year: '2021',
-      title: 'Synthetic Systems',
-      desc: 'Developing deep-learning integrated interfaces. Bridging the gap between raw data and human experience.'
+      year: '2023',
+      title: 'Web & Competitions',
+      desc: 'Designed and built websites, including projects for competitions.'
     },
     {
       year: '2025',
-      title: 'The Foundry',
-      desc: 'Currently outputting high-fidelity intelligence at the frontier of Synthetic Engineering.'
+      title: 'Current Focus',
+      desc: 'In 12th grade, preparing to study AI & ML and build stronger systems.'
     }
   ],
 
@@ -70,9 +80,9 @@ export const USER_CONFIG = {
 
   // Skills footer
   skills: [
-    "TensorFlow / PyTorch",
-    "GenAI Architectures",
+    "Python / NumPy",
+    "Algorithms & DS",
     "React / TypeScript",
-    "Metal / WebGL"
+    "Linear Algebra"
   ]
 };

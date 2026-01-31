@@ -10,7 +10,7 @@ const Projects: React.FC = () => {
   const [showMetadata, setShowMetadata] = useState(false);
   const [scanTop, setScanTop] = useState(-50);
   
-  const titleText = "The Archive.";
+  const titleText = "Selected ProJects.";
   const sectionRef = useRef<HTMLElement>(null);
 
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
@@ -29,7 +29,7 @@ const Projects: React.FC = () => {
           setPhase('scanning');
         }, 500);
       }
-    }, 100);
+    }, 80);
 
     const handleMouseMove = (e: MouseEvent) => {
       const x = (e.clientX / window.innerWidth) * 2 - 1;
@@ -107,14 +107,16 @@ const Projects: React.FC = () => {
       {phase === 'scanning' && <div className="scan-line" style={{ top: `${scanTop}px` }} />}
 
       <div className="flex flex-col mb-16 md:mb-24 items-start relative z-10">
-        <span className="font-mono text-[9px] md:text-[10px] font-bold uppercase tracking-[0.4em] text-[#7F8C8D] mb-4 opacity-60">Selected Archive</span>
         <h2 
-          className="font-display h-fluid font-extrabold leading-[0.9] tracking-tighter text-[#E0E6ED] flex items-center headline-shadow"
+          className="font-display h-fluid font-extrabold leading-[0.9] tracking-tighter text-[#E0E6ED] flex items-center headline-shadow mb-4"
           style={archiveHeaderStyle}
         >
           {typedTitle}
           {showCaret && <span className="caret ml-2 md:ml-4" />}
         </h2>
+        <p className={`font-mono text-[9px] md:text-[10px] font-bold uppercase tracking-[0.3em] text-[#7F8C8D] transition-all duration-1000 delay-500 ${typedTitle.length > 0 ? 'opacity-60 translate-y-0' : 'opacity-0 translate-y-2'}`}>
+          Personal work exploring AI, systems, and computation.
+        </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-16 perspective-1000">
