@@ -1,4 +1,3 @@
-
 export interface Project {
   id: string;
   title: string;
@@ -12,13 +11,14 @@ export enum AppView {
   HOME = 'HOME',
   PROJECTS = 'PROJECTS',
   ABOUT = 'ABOUT',
-  // Educational Platform Views
+  // Fix for AppView missing properties in Layout.tsx and StudyDashboard.tsx
   DASHBOARD = 'DASHBOARD',
   AI_TUTOR = 'AI_TUTOR',
   FLASHCARDS = 'FLASHCARDS',
   MINDMAP = 'MINDMAP'
 }
 
+// Fix for missing types in AIChat.tsx and ChatAssistant.tsx
 export interface Message {
   id: string;
   role: 'user' | 'assistant';
@@ -32,12 +32,14 @@ export interface GroundingSource {
   uri: string;
 }
 
+// Fix for missing Flashcard type in FlashcardTool.tsx
 export interface Flashcard {
   question: string;
   answer: string;
   tags?: string[];
 }
 
+// Fix for missing MindMapNode type in MindMap.tsx
 export interface MindMapNode {
   label: string;
   children?: MindMapNode[];

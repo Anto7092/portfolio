@@ -1,37 +1,37 @@
+import { GoogleGenAI, Type } from "@google/genai";
 
-import { GoogleGenAI, Type, GenerateContentResponse } from "@google/genai";
-import { Flashcard, MindMapNode } from "../types";
-
-// Always initialize with named parameter and process.env.API_KEY
+// Initialize the Google GenAI client using environment variable
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 /**
- * Gemini Service - Educational and Portfolio Logic
+ * Gemini Service
+ * Provides AI-powered capabilities for study tools and portfolio interaction.
  */
 export const geminiService = {
   /**
-   * Complex academic chat with Google Search grounding.
-   * Uses gemini-3-pro-preview for advanced reasoning and up-to-date information.
+   * Handles tutor chat sessions with Google Search grounding enabled.
+   * Fix for Error in AIChat.tsx on line 47.
    */
-  chatWithTutor: async (prompt: string, history: any[]): Promise<GenerateContentResponse> => {
-    return await ai.models.generateContent({
-      model: 'gemini-3-pro-preview',
-      contents: [...history, { role: 'user', parts: [{ text: prompt }] }],
+  chatWithTutor: async (message: string, history: any[]) => {
+    const response = await ai.models.generateContent({
+      model: 'gemini-3-flash-preview',
+      contents: [...history, { role: 'user', parts: [{ text: message }] }],
       config: {
         tools: [{ googleSearch: {} }],
-        systemInstruction: "You are ZenStudy AI, an elite academic tutor. Use Google Search to provide accurate, cited information. Format your responses with Markdown for clarity. Focus on educational depth and helping students solve problems step-by-step.",
+        systemInstruction: "You are ZenStudy's AI Study Tutor. Help students understand academic concepts clearly and provide reliable sources via Google Search.",
       },
     });
+    return response;
   },
 
   /**
-   * Structured JSON generation for study flashcards.
-   * Uses gemini-3-pro-preview to ensure high-quality question/answer pairs.
+   * Generates a set of flashcards for a specific topic in JSON format.
+   * Fix for Error in FlashcardTool.tsx on line 17.
    */
-  generateFlashcards: async (topic: string): Promise<Flashcard[]> => {
+  generateFlashcards: async (topic: string) => {
     const response = await ai.models.generateContent({
-      model: 'gemini-3-pro-preview',
-      contents: `Generate 6 high-quality study flashcards for the following topic: ${topic}. Focus on key definitions and conceptual understanding.`,
+      model: 'gemini-3-flash-preview',
+      contents: `Create 5 educational flashcards for: ${topic}`,
       config: {
         responseMimeType: "application/json",
         responseSchema: {
@@ -39,40 +39,39 @@ export const geminiService = {
           items: {
             type: Type.OBJECT,
             properties: {
-              question: { type: Type.STRING, description: "The study question or term" },
-              answer: { type: Type.STRING, description: "The detailed explanation or answer" },
-              tags: { type: Type.ARRAY, items: { type: Type.STRING }, description: "Relevant sub-topics" }
+              question: { type: Type.STRING },
+              answer: { type: Type.STRING },
+              tags: { type: Type.ARRAY, items: { type: Type.STRING } },
             },
             required: ["question", "answer"],
-            propertyOrdering: ["question", "answer", "tags"]
-          }
+          },
         },
       },
     });
     
     try {
-      const text = response.text || "[]";
-      return JSON.parse(text);
+      // Use .text property directly
+      return JSON.parse(response.text || "[]");
     } catch (e) {
-      console.error("Flashcard generation error:", e);
+      console.error("Flashcard generation failed", e);
       return [];
     }
   },
 
   /**
-   * Structured JSON generation for hierarchical mind maps.
-   * Uses gemini-3-pro-preview for logic and hierarchy construction.
+   * Generates a hierarchical mind map structure for a topic.
+   * Fix for Error in MindMap.tsx on line 17.
    */
-  generateMindMap: async (topic: string): Promise<MindMapNode> => {
+  generateMindMap: async (topic: string) => {
     const response = await ai.models.generateContent({
-      model: 'gemini-3-pro-preview',
-      contents: `Create a logical, hierarchical mind map structure for: ${topic}. Break it down into core concepts and supporting details.`,
+      model: 'gemini-3-flash-preview',
+      contents: `Build a hierarchical mind map for the topic: ${topic}. Include at least two levels of sub-topics.`,
       config: {
         responseMimeType: "application/json",
         responseSchema: {
           type: Type.OBJECT,
           properties: {
-            label: { type: Type.STRING, description: "The name of the node" },
+            label: { type: Type.STRING },
             children: {
               type: Type.ARRAY,
               items: {
@@ -84,43 +83,43 @@ export const geminiService = {
                     items: {
                       type: Type.OBJECT,
                       properties: {
-                        label: { type: Type.STRING }
+                        label: { type: Type.STRING },
                       },
-                      required: ["label"]
-                    }
-                  }
+                      required: ["label"],
+                    },
+                  },
                 },
-                required: ["label"]
-              }
-            }
+                required: ["label"],
+              },
+            },
           },
           required: ["label"],
-          propertyOrdering: ["label", "children"]
         },
       },
     });
-    
+
     try {
-      const text = response.text || "{}";
-      return JSON.parse(text);
+      // Use .text property directly
+      return JSON.parse(response.text || "{}");
     } catch (e) {
-      console.error("Mind map generation error:", e);
-      return { label: topic };
+      console.error("Mind map generation failed", e);
+      return { label: topic, children: [] };
     }
   },
 
   /**
-   * Portfolio-specific chat assistant.
-   * Uses gemini-3-flash-preview for fast, light-weight responses.
+   * Chat interface for the portfolio assistant.
+   * Fix for Error in ChatAssistant.tsx on line 42.
    */
-  chatWithAssistant: async (prompt: string, history: any[]): Promise<string> => {
+  chatWithAssistant: async (message: string, history: any[]) => {
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
-      contents: [...history, { role: 'user', parts: [{ text: prompt }] }],
+      contents: [...history, { role: 'user', parts: [{ text: message }] }],
       config: {
-        systemInstruction: "You are the personal assistant for Anto Bredly's portfolio. Anto is a 12th-grade student exploring AI/ML and systems programming. Be helpful and professional. You know about his projects (Aura Intelligence, Kinetic Studio, Prism Vision) and his goal to build intelligent systems through code and math.",
+        systemInstruction: "You are the AI assistant for Anto Bredly's portfolio. Anto is a student focused on AI and ML. Help visitors explore his work and biography. Be helpful, professional, and concise.",
       },
     });
-    return response.text || "";
-  }
+    // Return the text directly
+    return response.text;
+  },
 };
