@@ -1,32 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Project } from '../types';
-
-const PROJECTS: Project[] = [
-  {
-    id: '1',
-    title: 'Aura Intelligence',
-    description: 'Generative UI systems adapting to user biometrics in real-time.',
-    tags: ['GenAI', 'Biometric', 'WebGPU'],
-    link: '#',
-    image: 'https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?auto=format&fit=crop&q=80&w=1200'
-  },
-  {
-    id: '2',
-    title: 'Kinetic Studio',
-    description: 'High-performance motion engine for interactive brand narratives.',
-    tags: ['Rust', 'GLSL', 'WebGL'],
-    link: '#',
-    image: 'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&q=80&w=1200'
-  },
-  {
-    id: '3',
-    title: 'Prism Vision',
-    description: 'Spatial computing interfaces for the modern web browser.',
-    tags: ['Three.js', 'React', 'Canvas'],
-    link: '#',
-    image: 'https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&q=80&w=1200'
-  }
-];
+import { USER_CONFIG } from '../config';
 
 const Projects: React.FC = () => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -40,12 +13,10 @@ const Projects: React.FC = () => {
   const titleText = "The Archive.";
   const sectionRef = useRef<HTMLElement>(null);
 
-  // Card 3D tilt states
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
   const [cardRotate, setCardRotate] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    // Phase 1: Header Typing
     let currentIdx = 0;
     const typeInterval = setInterval(() => {
       if (currentIdx <= titleText.length) {
@@ -75,7 +46,6 @@ const Projects: React.FC = () => {
 
   useEffect(() => {
     if (phase === 'scanning') {
-      let start = 0;
       const duration = 1500;
       const startTime = performance.now();
 
@@ -88,7 +58,7 @@ const Projects: React.FC = () => {
           setScanTop(progress * height);
         }
 
-        PROJECTS.forEach((p, idx) => {
+        USER_CONFIG.projects.forEach((p, idx) => {
           if (progress > (idx * 0.2) + 0.1) {
             setVisibleCards(prev => new Set([...prev, p.id]));
           }
@@ -134,13 +104,7 @@ const Projects: React.FC = () => {
 
   return (
     <section ref={sectionRef} className="max-w-6xl mx-auto py-12 md:py-24 px-6 relative overflow-visible">
-      {/* The Scan Line */}
-      {phase === 'scanning' && (
-        <div 
-          className="scan-line" 
-          style={{ top: `${scanTop}px` }}
-        />
-      )}
+      {phase === 'scanning' && <div className="scan-line" style={{ top: `${scanTop}px` }} />}
 
       <div className="flex flex-col mb-16 md:mb-24 items-start relative z-10">
         <span className="font-mono text-[9px] md:text-[10px] font-bold uppercase tracking-[0.4em] text-[#7F8C8D] mb-4 opacity-60">Selected Archive</span>
@@ -154,7 +118,7 @@ const Projects: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-16 perspective-1000">
-        {PROJECTS.map((project) => (
+        {USER_CONFIG.projects.map((project) => (
           <div 
             key={project.id} 
             className={`project-card relative ${visibleCards.has(project.id) ? 'is-visible' : ''}`}
@@ -187,7 +151,6 @@ const Projects: React.FC = () => {
               </div>
               
               <div className="p-6 md:p-8 space-y-4 flex-1 flex flex-col bg-[#1A1D23]/60 backdrop-blur-xl border-x border-b border-white/5 rounded-b-2xl">
-                {/* Meta-Data Pop: Tags */}
                 <div className={`flex flex-wrap gap-2 metadata-pop ${showMetadata ? 'active' : ''}`}>
                   {project.tags.map(tag => (
                     <span key={tag} className="font-mono text-[7px] md:text-[8px] font-bold tracking-widest uppercase text-[#BDC3C7] border border-white/10 px-2 py-0.5 rounded bg-white/5 shadow-sm">
@@ -205,7 +168,6 @@ const Projects: React.FC = () => {
                   </p>
                 </div>
 
-                {/* Meta-Data Pop: Button */}
                 <div className={`pt-4 border-t border-white/5 mt-auto flex justify-between items-center metadata-pop ${showMetadata ? 'active' : ''}`}>
                   <span className="font-mono text-[7px] md:text-[8px] font-bold uppercase tracking-widest text-[#7F8C8D]">Vol. 01 — 2025</span>
                   <button className="text-[9px] md:text-[10px] font-bold uppercase tracking-wider flex items-center gap-2 text-[#ECF0F1] hover:text-white transition-colors group">
