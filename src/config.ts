@@ -15,7 +15,7 @@ export const USER_CONFIG = {
   role: "Student • AI / ML",
   email: "antotheprogrammer@gmail.com",
   phone: "+917092208939",
-  profileImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400",
+  profileImage: "/profile.jpg",
 
   // ─── Bio Page (About section) ───────────────────────────────────
   // Update paragraphs to change your story. Use "— — —" for visual dividers.
