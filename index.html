@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Anto Bredly | Exploring Intelligence</title>
     <meta name="description" content="Portfolio of Anto Bredly, a creative technologist and student exploring AI, ML, and complex systems.">
+    <meta name="theme-color" content="#1A1D23">
     
-    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Syne:wght@400..800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -52,18 +52,19 @@
 
         .bg-sigil {
             position: absolute;
-            top: 0;
+            top: 5%;
             left: 50%;
             transform: translateX(-50%);
             font-family: 'Syne', sans-serif;
             font-weight: 800;
-            font-size: clamp(15rem, 45vw, 45rem);
-            color: rgba(224, 230, 237, 0.02);
+            font-size: clamp(12rem, 35vw, 40rem);
+            color: rgba(224, 230, 237, 0.015);
             z-index: -1;
             pointer-events: none;
             line-height: 0.8;
             white-space: nowrap;
-            letter-spacing: -0.05em;
+            letter-spacing: -0.08em;
+            text-align: center;
         }
 
         .bio-reveal {
@@ -157,19 +158,22 @@
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(224, 230, 237, 0.1); border-radius: 10px; }
+
+        .headline-shadow { text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3); }
+        .outline-text-silver { -webkit-text-stroke: 1px rgba(224, 230, 237, 0.3); color: transparent; }
+        .cta-glow:hover { box-shadow: 0 0 30px rgba(224, 230, 237, 0.15); }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(224, 230, 237, 0.15); border-radius: 10px; }
+
+        .scan-line {
+            position: absolute; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(224, 230, 237, 0.6), transparent);
+            box-shadow: 0 0 20px rgba(224, 230, 237, 0.4);
+            transition: top 0.05s linear; z-index: 5; pointer-events: none;
+        }
+        .metadata-pop { opacity: 0; transform: translateY(8px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .metadata-pop.active { opacity: 1; transform: translateY(0); }
     </style>
-<script type="importmap">
-{
-  "imports": {
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "recharts": "https://esm.sh/recharts@^3.7.0",
-    "@google/genai": "https://esm.sh/@google/genai@^1.39.0",
-    "d3": "https://esm.sh/d3@^7.9.0",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "react": "https://esm.sh/react@^19.2.4"
-  }
-}
-</script>
 </head>
 <body>
     <div class="grid-container" id="blueprint-matrix">
@@ -185,7 +189,11 @@
         container.style.setProperty('--mouse-x', '50%');
         container.style.setProperty('--mouse-y', '50%');
     </script>
+<<<<<<< HEAD
     <script type="module" src="/src/index.tsx"></script>
 
+=======
+    <script type="module" src="/index.tsx"></script>
+>>>>>>> 46b1704e7aba05485f39c133dfe5a62e8f415abb
 </body>
 </html>

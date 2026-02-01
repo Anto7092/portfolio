@@ -134,14 +134,4 @@ const FlashcardTool: React.FC = () => {
   );
 };
 
-// CSS styles added via style tag in index.html for simplicity or manually if preferred. 
-// Adding perspective and transform-style-3d manually to Tailwind via standard CSS.
-const styles = `
-  .perspective-1000 { perspective: 1000px; }
-  .transform-style-3d { transform-style: preserve-3d; }
-  .backface-hidden { backface-visibility: hidden; }
-  .rotate-y-180 { transform: rotateY(180deg); }
-`;
-// Add these to index.html within a <style> block.
-
 export default FlashcardTool;

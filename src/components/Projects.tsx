@@ -172,9 +172,20 @@ const Projects: React.FC = () => {
 
                 <div className={`pt-4 border-t border-white/5 mt-auto flex justify-between items-center metadata-pop ${showMetadata ? 'active' : ''}`}>
                   <span className="font-mono text-[7px] md:text-[8px] font-bold uppercase tracking-widest text-[#7F8C8D]">Vol. 01 — 2025</span>
-                  <button className="text-[9px] md:text-[10px] font-bold uppercase tracking-wider flex items-center gap-2 text-[#ECF0F1] hover:text-white transition-colors group">
-                    View <span className="transform transition-transform group-hover:translate-x-1">→</span>
-                  </button>
+                  {project.link && project.link !== '#' ? (
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[9px] md:text-[10px] font-bold uppercase tracking-wider flex items-center gap-2 text-[#ECF0F1] hover:text-white transition-colors group"
+                    >
+                      View <span className="transform transition-transform group-hover:translate-x-1">→</span>
+                    </a>
+                  ) : (
+                    <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-wider flex items-center gap-2 text-[#7F8C8D]/70 cursor-default">
+                      Coming soon
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
