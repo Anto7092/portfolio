@@ -1,11 +1,11 @@
 
 import React, { useState } from 'react';
-import { AppView } from './types';
+import { AppView } from '../../types';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
 import Projects from './components/Projects';
 import About from './components/About';
-import ChatAssistant from './components/ChatAssistant';
+//import ChatAssistant from './components/ChatAssistant';
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<AppView>(AppView.HOME);
@@ -31,8 +31,8 @@ const App: React.FC = () => {
         return <Projects />;
       case AppView.ABOUT:
         return <About />;
-      case AppView.CHAT:
-        return <ChatAssistant />;
+      //case AppView.CHAT:
+      //  return <ChatAssistant />;
       default:
         return <Hero onNavigate={navigate} />;
     }
@@ -50,7 +50,9 @@ const App: React.FC = () => {
         Anto Bredly Portfolio © 2025
       </footer>
 
+    
       {/* Persistent Chat Hub */}
+      {/*
       {currentView !== AppView.CHAT && (
         <button
           onClick={() => navigate(AppView.CHAT)}
@@ -61,7 +63,8 @@ const App: React.FC = () => {
             Assistant
           </div>
         </button>
-      )}
+      )} 
+      */}
     </div>
   );
 };
