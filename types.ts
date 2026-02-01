@@ -11,7 +11,6 @@ export enum AppView {
   HOME = 'HOME',
   PROJECTS = 'PROJECTS',
   ABOUT = 'ABOUT',
-  // Fix for AppView missing properties in Layout.tsx and StudyDashboard.tsx
   DASHBOARD = 'DASHBOARD',
   AI_TUTOR = 'AI_TUTOR',
   FLASHCARDS = 'FLASHCARDS',

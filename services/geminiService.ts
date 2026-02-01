@@ -1,7 +1,8 @@
 import { GoogleGenAI, Type } from "@google/genai";
 
-// Initialize the Google GenAI client using environment variable
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// GEMINI_API_KEY is injected at build time via Vite define
+const apiKey = process.env.GEMINI_API_KEY;
+const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
 
 /**
  * Gemini Service
@@ -13,6 +14,9 @@ export const geminiService = {
    * Fix for Error in AIChat.tsx on line 47.
    */
   chatWithTutor: async (message: string, history: any[]) => {
+    if (!ai) {
+      return { text: "AI features require a Gemini API key. Set GEMINI_API_KEY in your environment.", candidates: [] };
+    }
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
       contents: [...history, { role: 'user', parts: [{ text: message }] }],
@@ -29,6 +33,7 @@ export const geminiService = {
    * Fix for Error in FlashcardTool.tsx on line 17.
    */
   generateFlashcards: async (topic: string) => {
+    if (!ai) return [];
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
       contents: `Create 5 educational flashcards for: ${topic}`,
@@ -63,6 +68,7 @@ export const geminiService = {
    * Fix for Error in MindMap.tsx on line 17.
    */
   generateMindMap: async (topic: string) => {
+    if (!ai) return { label: topic, children: [] };
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
       contents: `Build a hierarchical mind map for the topic: ${topic}. Include at least two levels of sub-topics.`,
@@ -112,6 +118,9 @@ export const geminiService = {
    * Fix for Error in ChatAssistant.tsx on line 42.
    */
   chatWithAssistant: async (message: string, history: any[]) => {
+    if (!ai) {
+      return "AI chat is unavailable. To enable it, set GEMINI_API_KEY in your deployment environment.";
+    }
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
       contents: [...history, { role: 'user', parts: [{ text: message }] }],

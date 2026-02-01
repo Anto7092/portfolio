@@ -1,56 +1,53 @@
 import { Project } from './types';
 
 /**
+ * ═══════════════════════════════════════════════════════════════════
  * PORTFOLIO CONFIGURATION
- * 
- * To update your portfolio:
- * 1. Modify the values in this object.
- * 2. This is the only file you need to touch for content updates.
+ * ═══════════════════════════════════════════════════════════════════
+ *
+ * This is the ONLY file you need to edit to update your portfolio.
+ * After changing values, run `npm run build` and redeploy.
  */
 
 export const USER_CONFIG = {
+  // ─── Contact & Identity ─────────────────────────────────────────
   name: "Anto Bredly",
   role: "Student • AI / ML",
   email: "antotheprogrammer@gmail.com",
   phone: "+917092208939",
   profileImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400",
-  
-  // Bio Page Content
+
+  // ─── Bio Page (About section) ───────────────────────────────────
+  // Update paragraphs to change your story. Use "— — —" for visual dividers.
+  // Keywords are highlighted in the text when they appear.
   bio: {
     heading: "About Me.",
     paragraphs: [
-      "I’m a student interested in understanding how intelligence works — not just at a high level, but at the level of systems, code, and math.",
-      "I enjoy building small projects that help me explore ideas in artificial intelligence and machine learning. I’m especially drawn to problems where logic, algorithms, and structure matter.",
+      "I'm a student interested in understanding how intelligence works — not just at a high level, but at the level of systems, code, and math.",
+      "I enjoy building small projects that help me explore ideas in artificial intelligence and machine learning. I'm especially drawn to problems where logic, algorithms, and structure matter.",
       "This portfolio is a place where I document what I build, what I learn, and how my thinking evolves over time.",
       "— — —",
       "Right now, my focus is on strengthening my foundations in programming, algorithms, and mathematics, while gradually moving deeper into machine learning concepts through hands-on work.",
       "— — —",
-      "I’m still learning — and that’s the point."
+      "I'm still learning — and that's the point."
     ],
     keywords: ["intelligence", "systems", "code", "math", "logic", "algorithms", "structure", "learning"],
-    monogram: "AB"
+    monogram: "AB"  // Large initials shown on About page
   },
 
-  // Timeline Events
+  // ─── Timeline (About page) ──────────────────────────────────────
+  // Add or edit events. Each needs: year, title, desc
   timeline: [
-    {
-      year: '2020',
-      title: 'Started Programming',
-      desc: 'Began learning programming through online courses and self-exploration.'
-    },
-    {
-      year: '2023',
-      title: 'Web & Competitions',
-      desc: 'Designed and built websites, including projects for competitions.'
-    },
-    {
-      year: '2025',
-      title: 'Current Focus',
-      desc: 'In 12th grade, preparing to study AI & ML and build stronger systems.'
-    }
+    { year: '2020', title: 'Started Programming', desc: 'Began learning programming through online courses and self-exploration.' },
+    { year: '2023', title: 'Web & Competitions', desc: 'Designed and built websites, including projects for competitions.' },
+    { year: '2025', title: 'Current Focus', desc: 'In 12th grade, preparing to study AI & ML and build stronger systems.' }
   ],
 
-  // Projects Archive
+  // ─── Projects (Works section) ───────────────────────────────────
+  // Add new projects: copy the block below and fill in your details.
+  // - id: unique string (e.g. '4', '5')
+  // - link: full URL to project, or '#' for "Coming soon"
+  // - image: URL to project thumbnail (Unsplash, your CDN, etc.)
   projects: [
     {
       id: '1',
@@ -78,7 +75,7 @@ export const USER_CONFIG = {
     }
   ],
 
-  // Skills footer
+  // ─── Skills (displayed on About page) ───────────────────────────
   skills: [
     "Python / NumPy",
     "Algorithms & DS",
