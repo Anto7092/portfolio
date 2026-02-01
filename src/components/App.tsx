@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { AppView } from '../types';
 import { USER_CONFIG } from '../config';
 import Navigation from './Navigation';
@@ -55,6 +56,8 @@ const App: React.FC = () => {
           </a>
         </div>
       </footer>
+      
+      <Analytics />
     </div>
   );
 };
