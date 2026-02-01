@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { AppView } from '../types';
-
+import { Analytics } from "@vercel/analytics/next"
 interface LayoutProps {
   children: React.ReactNode;
   currentView: AppView;
