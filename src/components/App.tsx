@@ -44,7 +44,7 @@ const App: React.FC = () => {
 
       <footer className="fixed bottom-6 left-8 right-8 flex justify-between items-center z-50 pointer-events-none">
         <div className="font-mono text-[7px] md:text-[8px] font-bold tracking-[0.5em] uppercase text-[#7F8C8D]">
-          Anto Bredly © 2025
+          Anto Bredly © 2026
         </div>
         <div className="flex gap-4 md:gap-8 pointer-events-auto">
           <a href={`mailto:${USER_CONFIG.email}`} className="font-mono text-[7px] md:text-[8px] font-bold tracking-[0.2em] uppercase text-[#7F8C8D] hover:text-white transition-colors">
